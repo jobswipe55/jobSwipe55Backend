@@ -11,12 +11,12 @@ const options = {
     },
     servers: [
       {
-        url: "https://vehicleservice.azurewebsites.net",
-        description: "Production server",
+        url: "http://localhost:4000",
+        description: "Local server",
       },
       {
-        url: "http://localhost:3000",
-        description: "Local server",
+        url: "https://vehicleservice.azurewebsites.net",
+        description: "Production server",
       },
     ],
   },
