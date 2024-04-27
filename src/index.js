@@ -35,6 +35,9 @@ import mongoose from "mongoose";
 //it extracts the entire body portion of an incoming request stream and exposes
 // it on req.body 
 import bodyParser from "body-parser";
+// --- middleware to deal with cors
+import cors from "cors";
+
 //
 import routes from "./routes/soccerRoutes";
 // ### end Imports ###
@@ -43,7 +46,7 @@ import routes from "./routes/soccerRoutes";
 //Create webserver
 const app = express();
 //Other constants
-const PORT = 3000;
+const PORT = 4000;
 // MongoDB URI
 const mongoURI = "mongodb+srv://mathteixeira55:p2kQ6Phz53GwUTDz@cluster0.bswfrit.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 // ### end Constants ###
@@ -67,6 +70,40 @@ mongoose.connect(mongoURI, {
 //extended allow complex objects to be URL encoded.
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json())
+
+//CORS set up
+app.use(cors()) // This will enable CORS for all routes and origins
+                // In other words will allow any rout to be accessible from any
+                // origin
+
+    //other cors() examples
+       // --- Example of enabling CORS for a specific route
+       /*  app.get('/data', cors(), (req, res) => {
+             res.json({ message: 'This route supports CORS' });
+           });
+       */
+       // --- Allowing Multiple Specific Origins
+       /*
+       const allowedOrigins = ['http://example.com', 'https://anotherdomain.com', 'http://localhost:3000'];
+
+        const corsOptions = {
+            origin: function (origin, callback) {
+                if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+                    callback(null, true);
+                } else {
+                    callback(new Error('Not allowed by CORS'));
+                }
+            }
+        };
+
+        app.use(cors(corsOptions));
+
+       */
+
+
+
+
+
 // ### end Body Parser Set Up ###
 
 // ### API ###
@@ -97,5 +134,5 @@ routes(app);
 
 //Start listening the PORT
 app.listen(PORT, () => 
-    console.log(`Your server is running on port: ${PORT}`)
+    console.log(`Your server is running on: http://localhost:${PORT}`)
 )
