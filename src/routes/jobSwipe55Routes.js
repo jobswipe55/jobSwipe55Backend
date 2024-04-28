@@ -1,5 +1,5 @@
 /**
- * File Name: soccerRoutes.js
+ * File Name: jobSwipe55Routes.js
  * Description: routes the endpoints
  * Author: mathteixeira55
  * Date: March 29, 2024
@@ -10,79 +10,79 @@
  */
 
 // ### Imports ###
-import { addNewPlayer, getPlayers, getPlayerByID, putPlayerByID, deletePlayerByID }
-    from "../controllers/playerControllers";
+import { addNewSeeker, getSeekers, getSeekerByID, putSeekerByID, deleteSeekerByID }
+    from "../controllers/seekerControllers";
 // ### end Imports ###
 
 const routes = (app) => {
-    // ### API for Player ###
-    app.route('/players')
+    // ### API for Seeker ###
+    app.route('/seekers')
     // --- POST endpiont (CREATE)
     /**
      * @swagger
-     * /players:
+     * /seekers:
      *   post:
-     *     summary: Create a new player.
-     *     tags: [Player]
+     *     summary: Create a new seeker.
+     *     tags: [Seeker]
      *     requestBody:
      *       required: true
      *       content:
      *         application/json:
      *           schema:
-     *             $ref: '#/components/schemas/Player'
+     *             $ref: '#/components/schemas/Seeker'
      *     responses:
      *       201:
-     *         description: The created player.
+     *         description: The created seeker.
      *         content:
      *           application/json:
      *             schema:
-     *               $ref: '#/components/schemas/Player'
+     *               $ref: '#/components/schemas/Seeker'
      *       500:
      *         description: Internal server error.
      */
-    .post(addNewPlayer)
+    .post(addNewSeeker)
     
     // --- GET endpiont (READ)
     /**
      * @swagger
-     * /players:
+     * /seekers:
      *   get:
-     *     summary: get the list of all players.
-     *     tags: [Player]
+     *     summary: get the list of all seekers.
+     *     tags: [Seeker]
      *     responses:
      *       201:
-     *         description: List of players.
+     *         description: List of seekers.
      *       500:
      *         description: Internal server error.
      */
-    .get(getPlayers);
+    .get(getSeekers);
 
-//New route: the ":playerID" is a param that will be included in the request
-//to be used by the getPlayerByID function.
-app.route('/players/:playerID')
+//New route: the ":seekerID" is a param that will be included in the request
+//to be used by the getSeekerByID function.
+app.route('/seekers/:seekerID')
     // --- GET endpoint (READ)
     /**
      * @swagger
-     * /players/{playerID}:
+     * /seekers/{seekerID}:
      *   get:
-     *     summary: Find a player given a specific ID.
-     *     tags: [Player]
+     *     summary: Find a seeker given a specific ID.
+     *     tags: [Seeker]
      *     parameters:
      *       - in: path
-     *         name: playerID
+     *         name: seekerID
      *         required: true
      *         schema:
      *           type: string
-     *         description: The ID of the player to retrieve
+     *         description: The ID of the seeker to retrieve
      *     responses:
      *       200:
-     *         description: A player corresponding to the ID.
+     *         description: A seeker corresponding to the ID.
      *         content:
      *           application/json:
      *             schema:
-     *               $ref: '#/components/schemas/Player'
+     *               $ref: '#/components/schemas/Seeker'
      *       404:
-     *         description: Player not found.
+     *         description: Seeker not found.
      *         content:
      *           application/json:
      *             schema:
@@ -90,63 +90,63 @@ app.route('/players/:playerID')
      *               properties:
      *                 message:
      *                   type: string
-     *                   example: "Player not found"
+     *                   example: "Seeker not found"
      *       500:
      *         description: Internal server error.
      */
-    .get(getPlayerByID)
+    .get(getSeekerByID)
 
     // --- PUT endpiont (UPDATE)
     /**
      * @swagger
-     * /players/{playerID}:
+     * /seekers/{seekerID}:
      *   put:
-     *     summary: Update a player's details given a specific ID.
-     *     tags: [Player]
+     *     summary: Update a seeker's details given a specific ID.
+     *     tags: [Seeker]
      *     parameters:
      *       - in: path
-     *         name: playerID
+     *         name: seekerID
      *         required: true
      *         schema:
      *           type: string
-     *         description: The ID of the player to update
+     *         description: The ID of the seeker to update
      *     requestBody:
      *       required: true
      *       content:
      *         application/json:
      *           schema:
-     *             $ref: '#/components/schemas/Player'
+     *             $ref: '#/components/schemas/Seeker'
      *     responses:
      *       200:
-     *         description: Returns the updated player data.
+     *         description: Returns the updated seeker data.
      *         content:
      *           application/json:
      *             schema:
-     *               $ref: '#/components/schemas/Player'
+     *               $ref: '#/components/schemas/Seeker'
      *       404:
-     *         description: Player not found.
+     *         description: Seeker not found.
      *       500:
      *         description: Internal server error due to an error during the update process.
      */
-    .put(putPlayerByID)
+    .put(putSeekerByID)
 
     // --- DELETE endpiont (DELETE)
     /**
      * @swagger
-     * /players/{playerID}:
+     * /seekers/{seekerID}:
      *   delete:
-     *     summary: Delete a player given a specific ID.
-     *     tags: [Player]
+     *     summary: Delete a seeker given a specific ID.
+     *     tags: [Seeker]
      *     parameters:
      *       - in: path
-     *         name: playerID
+     *         name: seekerID
      *         required: true
      *         schema:
      *           type: string
-     *         description: The ID of the player to delete
+     *         description: The ID of the seeker to delete
      *     responses:
      *       200:
-     *         description: Player successfully deleted.
+     *         description: Seeker successfully deleted.
      *         content:
      *           application/json:
      *             schema:
@@ -154,19 +154,19 @@ app.route('/players/:playerID')
      *               properties:
      *                 message:
      *                   type: string
-     *                   example: "Player successfully deleted"
-     *                 player:
-     *                   $ref: '#/components/schemas/Player'
+     *                   example: "Seeker successfully deleted"
+     *                 seeker:
+     *                   $ref: '#/components/schemas/Seeker'
      *       404:
-     *         description: Player not found.
+     *         description: Seeker not found.
      *       500:
      *         description: Internal server error due to an error during the delete process.
      */
-    .delete(deletePlayerByID)
+    .delete(deleteSeekerByID)
     ;
 
 }
-// ### end API for Player ###
+// ### end API for Seeker ###
 
 //export the routes function to be used on the index.js file.
 //because I am using the default keyword, when importing we won't need to use

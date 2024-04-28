@@ -2,7 +2,7 @@
  * File Name: index.js
  * Description: build a webserver using EXPRESS and connect with MongoDB.
  * Author: mathteixeira55
- * Date: March 22, 2024
+ * Date: April 27, 2024
  * Version: 1.0.0
  * License: MIT License
  * Copyright:
@@ -10,45 +10,25 @@
  */
 
 // ### Imports ###
-// Note: on porpose I am using 2 different syntaxes for importing dependecies
-//   1) CommonJS module, which uses require()
-//   2) ES module, which uses import syntax.
-//      to execute this without errors you should use one of these approaches:
-//      a) simple change all the imports to require syntax
-//      b) use babel (see the notes about this exercise)
-//          nodemon ./index.js --exec babel-node -e js
-//      c) use .mjs extensions
-//          node index.mjs
-//      d) include this line on package.json
-//            "type": "module",
-//      e) other appoarches of your choice
-//  Keep in mind that JavaScript ecosystem has been increasingly adopting the
-//  ES Module (ESM) syntax (import/export) 
-// --- library for documentation purposes
-const swaggerJsdoc = require("swagger-jsdoc");
-const swaggerUi = require("swagger-ui-express");
 // --- library for creating APIs
 import express from "express";
 // --- library to connect with Mongo DB
 import mongoose from "mongoose";
 // --- middleware for Express.js, used to parse incoming request bodies.
-//it extracts the entire body portion of an incoming request stream and exposes
+// it extracts the entire body portion of an incoming request stream and exposes
 // it on req.body 
 import bodyParser from "body-parser";
 // --- middleware to deal with cors
 import cors from "cors";
-
-//
-import routes from "./routes/soccerRoutes";
+// --- global variables
+import { localURL, PORT, mongoURI } from './config.js';
+// --- function that defines the routes
+import routes from "./routes/jobSwipe55Routes";
 // ### end Imports ###
 
 // ### Constants ###
 //Create webserver
 const app = express();
-//Other constants
-const PORT = 4000;
-// MongoDB URI
-const mongoURI = "mongodb+srv://mathteixeira55:p2kQ6Phz53GwUTDz@cluster0.bswfrit.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 // ### end Constants ###
 
 // ### Configure Swagger ###
@@ -70,8 +50,9 @@ mongoose.connect(mongoURI, {
 //extended allow complex objects to be URL encoded.
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json())
+// ### end Body Parser Set Up ###
 
-//CORS set up
+// ### CORS set up
 app.use(cors()) // This will enable CORS for all routes and origins
                 // In other words will allow any rout to be accessible from any
                 // origin
@@ -99,12 +80,7 @@ app.use(cors()) // This will enable CORS for all routes and origins
         app.use(cors(corsOptions));
 
        */
-
-
-
-
-
-// ### end Body Parser Set Up ###
+// ### end CORS set up
 
 // ### API ###
 // --- GET endpionts
@@ -125,14 +101,12 @@ app.get("/", (req, res) =>
 // ### end API ###
 
 // ### ROUTES ###
-// using the function created on ./routes/soccerRoutes file.
+// using the function created on ./routes/jobSwipeRoutes file.
 // remember to import the file.
 routes(app);
 // ### end ROUTES ###
 
-
-
 //Start listening the PORT
 app.listen(PORT, () => 
-    console.log(`Your server is running on: http://localhost:${PORT}`)
+    console.log(`Your server is running on: ${localURL}:${PORT}`)
 )

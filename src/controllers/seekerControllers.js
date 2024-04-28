@@ -1,6 +1,6 @@
 /**
- * File Name: playerControllers.js
- * Description: intermediary between the playerModel (data) and the view
+ * File Name: seekerControllers.js
+ * Description: intermediary between the seekerModel (data) and the view
  *              (presentation)
  * Author: mathteixeira55
  * Date: March 29, 2024
@@ -12,12 +12,12 @@
 
 // ### Imports ###
 // --- library to connect with Mongo DB
-import { Player } from "../models/playerModel";
+import { Seeker } from "../models/seekerModel";
 // ### end Imports ###
 
 // --- CREATE
-export const addNewPlayer = async (req, res) => {
-  let newPlayer = new Player(req.body);
+export const addNewSeeker = async (req, res) => {
+  let newSeeker = new Seeker(req.body);
 
   try {
       //The save method is a part of Mongoose's model instance methods. It's used
@@ -26,15 +26,15 @@ export const addNewPlayer = async (req, res) => {
       //Both send and json are methods of the response object (res) in Express.
       //json method is similar to res.send but explicitly sets the content
       //type to application/json.
-      const savedPlayer = await newPlayer.save();
-      res.status(201).json(savedPlayer);
+      const savedSeeker = await newSeeker.save();
+      res.status(201).json(savedSeeker);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
 }
 
 // --- READ
-export const getPlayers = async (req, res) => {
+export const getSeekers = async (req, res) => {
       //The find method is a part of Mongoose's model instance methods. It's used
       //to insert a new document into the MongoDB database or update an existing
       //one
@@ -44,39 +44,39 @@ export const getPlayers = async (req, res) => {
       try {
           // The find method returns a Promise which resolves to the array of documents
           // matching the query. Since there's no specific query object provided to find(),
-          // it will retrieve all players.
-          const playersList = await Player.find();
-          res.json(playersList); // Sends the list of players as a JSON response.
+          // it will retrieve all seekers.
+          const seekersList = await Seeker.find();
+          res.json(seekersList); // Sends the list of seekers as a JSON response.
         } catch (error) {
             res.status(500).json({ error: error.message }); // Handles any errors that occur during the query.
         }
       // This approach is not supported by mongoose anymore. find cannot accept
       // callback functions. It is now using await
-      // Player.find({}, (err, playersList) =>{
+      // Seeker.find({}, (err, seekersList) =>{
       //   if(err){
       //     res.send(error);
       //   }
-      //   res.json(playersList);
+      //   res.json(seekersList);
 
       // });
 }
 
-export const getPlayerByID = async (req, res) => {
+export const getSeekerByID = async (req, res) => {
   try {
     // The findById method is a part of Mongoose's model instance methods. It's used
     // to find a document by its _id field, which is typically passed as a parameter in the request.
-    const player = await Player.findById(req.params.playerID);
+    const seeker = await Seeker.findById(req.params.seekerID);
 
-    if (!player) {
-      // If no player is found, send a 404 Not Found response.
+    if (!seeker) {
+      // If no seeker is found, send a 404 Not Found response.
       // This ensures that the client receives a clear indication that the requested resource doesn't exist.
-      return res.status(404).json({ message: "Player not found" });
+      return res.status(404).json({ message: "Seeker not found" });
     }
 
-    // Sends the player data as a JSON response.
+    // Sends the seeker data as a JSON response.
     // The json method is similar to res.send but explicitly sets the content
     // type to application/json.
-    res.json(player);
+    res.json(seeker);
   } catch (error) {
     // Handles any errors that occur during the query.
     // This catch block catches exceptions that might occur during database access or if the findById operation fails.
@@ -85,25 +85,25 @@ export const getPlayerByID = async (req, res) => {
 }
 
 // --- UPDATE
-export const putPlayerByID = async (req, res) => {
+export const putSeekerByID = async (req, res) => {
   try {
-    // findOneAndUpdate is used here to find a player document by _id and update
+    // findOneAndUpdate is used here to find a seeker document by _id and update
     // it. The {new: true} option in the parameters makes sure that the method
     // returns the modified document rather than the original.
-    const player = await Player.findOneAndUpdate(
-      {_id: req.params.playerID},  // Query to find the document by _id
+    const seeker = await Seeker.findOneAndUpdate(
+      {_id: req.params.seekerID},  // Query to find the document by _id
       req.body,                   // The update to be applied, taken from the request body
       {new: true}                 // Options: returns the updated document
     );
 
-    if (!player) {
-      // If findOneAndUpdate doesn't find any player, it returns null, and thus,
+    if (!seeker) {
+      // If findOneAndUpdate doesn't find any seeker, it returns null, and thus,
       // a 404 Not Found response is sent.
-      return res.status(404).json({ message: "Player not found" });
+      return res.status(404).json({ message: "Seeker not found" });
     }
 
-    // Sends the updated player data as a JSON response.
-    res.json(player);
+    // Sends the updated seeker data as a JSON response.
+    res.json(seeker);
   } catch (error) {
     // If an error occurs during the database operation, send a 500 Internal
     // Server Error
@@ -114,21 +114,21 @@ export const putPlayerByID = async (req, res) => {
 
 // --- DELETE
 // --- DELETE
-export const deletePlayerByID = async (req, res) => {
+export const deleteSeekerByID = async (req, res) => {
   try {
-    // The findByIdAndRemove method is used to find a player by its _id and remove it from the database.
+    // The findByIdAndRemove method is used to find a seeker by its _id and remove it from the database.
     // This method returns the document, as it was before deletion, if it is found and deleted successfully.
-    const player = await Player.findByIdAndDelete(req.params.playerID);
+    const seeker = await Seeker.findByIdAndDelete(req.params.seekerID);
 
-    if (!player) {
-      // If no player is found and deleted, send a 404 Not Found response.
+    if (!seeker) {
+      // If no seeker is found and deleted, send a 404 Not Found response.
       // This ensures that the client receives a clear indication that the requested resource doesn't exist.
-      return res.status(404).json({ message: "Player not found" });
+      return res.status(404).json({ message: "Seeker not found" });
     }
 
     // Sends a response indicating successful deletion.
-    // The json method sets the content type to application/json and sends the deleted player's data as confirmation.
-    res.json({ message: "Player successfully deleted", player: player });
+    // The json method sets the content type to application/json and sends the deleted seeker's data as confirmation.
+    res.json({ message: "Seeker successfully deleted", seeker: seeker });
   } catch (error) {
     // Handles any errors that occur during the query.
     // This catch block catches exceptions that might occur during database access or if the findByIdAndRemove operation fails.

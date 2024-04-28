@@ -1,26 +1,45 @@
-const swaggerUi = require("swagger-ui-express");
-const swaggerJsdoc = require("swagger-jsdoc");
+/**
+ * File Name: swagger.js
+ * Description: swagger configuration to create swagger documentation.
+ * Author: mathteixeira55
+ * Date: April 27, 2024
+ * Version: 1.0.0
+ * License: MIT License
+ * Copyright:
+ * Contact Information: 
+ */
+
+
+// ### Imports ###
+import swaggerJsdoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
+// --- global variables
+import { localURL, PORT, mongoURI } from './config.js';
+// ### end Imports ###
 
 const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "Soccer API",
+      title: "Jobswipe55 API",
       version: "1.0.0",
-      description: "A simple Express API for soccer",
+      description: "A simple Express API for jobSwipe55",
     },
     servers: [
       {
-        url: "http://localhost:4000",
+        url: `${localURL}:${PORT}`,
         description: "Local server",
-      },
-      {
-        url: "https://vehicleservice.azurewebsites.net",
-        description: "Production server",
       },
     ],
   },
-  apis: ["./models/playerModel.js", "./index.js", "./routes/soccerRoutes.js"],
+  apis: [
+    "./models/EducationSchema.js",
+    "./models/PersonalInfoSchema.js",
+    "./models/SkillSchema.js",
+    "./models/seekerModel.js",
+    "./index.js",
+    "./routes/jobSwipe55Routes.js"
+  ],
 };
 
 const specs = swaggerJsdoc(options);
